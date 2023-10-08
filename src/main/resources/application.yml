@@ -1,0 +1,26 @@
+server:
+  port: 8080
+  url: http://localhost:${server.port}
+  error:
+    include-binding-errors: always
+    include-message: always
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: admin
+  liquibase:
+    enabled: false
+    change-log: db/db-changelog.xml
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create
+    show-sql: on
+
+springdoc:
+  swagger-ui:
+    path: ${server.url}/swagger-ui/index.html
