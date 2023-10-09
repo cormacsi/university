@@ -2,12 +2,16 @@ package edu.school21.students.api.student;
 
 import edu.school21.students.service.StudentService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Past;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("students")
 @RequiredArgsConstructor
@@ -24,7 +28,7 @@ public class StudentController {
     }
 
     @PutMapping("/{studentId}/group/{groupId}")
-    public StudentResponseDTO updateStudentsGroup(@PathVariable Long studentId, @PathVariable Long groupId) {
+    public StudentResponseDTO updateStudentGroup(@PathVariable Long studentId, @PathVariable Long groupId) {
         return studentMapper.entityToDTO(studentService.addStudentToGroup(studentId, groupId));
     }
 
@@ -48,8 +52,12 @@ public class StudentController {
     @PutMapping(path = "{id}")
     public StudentResponseDTO updateStudent(@PathVariable("id")Long id,
                                             @RequestParam(required = false) String firstName,
-                                            @RequestParam(required = false) String lastName) {
-        return studentMapper.entityToDTO(studentService.updateStudent(id, firstName, lastName));
+                                            @RequestParam(required = false) String lastName,
+                                            @RequestParam(required = false)
+                                                @Past(message = "The date of birth should be in the past")
+                                                LocalDate dob) {
+        return studentMapper.entityToDTO(studentService
+                .updateStudent(id, firstName, lastName, dob));
     }
 
     @DeleteMapping("{id}")

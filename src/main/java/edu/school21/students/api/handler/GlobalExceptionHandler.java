@@ -1,10 +1,7 @@
 package edu.school21.students.api.handler;
 
 import edu.school21.students.api.response.ErrorResponse;
-import edu.school21.students.exception.DisciplineAlreadyExistsException;
-import edu.school21.students.exception.DisciplineNotFoundException;
-import edu.school21.students.exception.GroupNotFoundException;
-import edu.school21.students.exception.StudentNotFoundException;
+import edu.school21.students.exception.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -64,9 +61,21 @@ class GlobalExceptionHandler {
         return new ErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(GradeNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public final ErrorResponse handleGradeNotFoundException(GradeNotFoundException e) {
+        return new ErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(DisciplineAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public final ErrorResponse handleDisciplineAlreadyExistsException(DisciplineAlreadyExistsException e) {
+        return new ErrorResponse(e.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(GroupAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public final ErrorResponse handleGroupAlreadyExistsException(GroupAlreadyExistsException e) {
         return new ErrorResponse(e.getMessage(), HttpStatus.CONFLICT);
     }
 }

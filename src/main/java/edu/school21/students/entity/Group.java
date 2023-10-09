@@ -1,6 +1,8 @@
 package edu.school21.students.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +10,8 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity(name = "groups")
 @Table
 public class Group {
@@ -15,14 +19,15 @@ public class Group {
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "groups_seq")
+            generator = "groups_gen")
     @SequenceGenerator(
-            name = "groups_seq",
-            allocationSize = 20)
+            name = "groups_gen",
+            sequenceName = "groups_id_seq",
+            allocationSize = 1)
     @Column(nullable = false, updatable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @OneToMany(mappedBy = "group")

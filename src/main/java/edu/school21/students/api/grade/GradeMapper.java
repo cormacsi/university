@@ -19,7 +19,7 @@ public abstract class GradeMapper {
 
     @Mapping(target = "mark", source = "grade.mark.value")
     @Mapping(target = "discipline", source = "grade.discipline.name")
-    public abstract GradeDTO entityToDTO(Grade grade);
+    public abstract GradeResponseDTO entityToDTO(Grade grade);
 
-    public abstract List<GradeDTO> entityToDTOList(List<Grade> grades);
+    public abstract List<GradeResponseDTO> entityToDTOList(List<Grade> grades);
 }

@@ -3,6 +3,18 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
 
+    <changeSet id="CREATE_DISCIPLINE_ID_SEQ" author="cormacsi">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="discipline_id_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="discipline_id_seq"
+                        startValue="1"
+                        dataType="BIGINT"
+                        cycle="false"/>
+    </changeSet>
+
     <changeSet id="CREATE_DISCIPLINE_TABLE" author="cormacsi">
         <preConditions onFail="MARK_RAN">
             <not>

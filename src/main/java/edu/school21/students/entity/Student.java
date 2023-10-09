@@ -21,11 +21,12 @@ public class Student {
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "student_seq")
+            generator = "student_gen")
     @SequenceGenerator(
-            name = "student_seq",
-            allocationSize = 30)
-    @Column(name = "id", nullable = false, updatable = false)
+            name = "student_gen",
+            sequenceName = "student_id_seq",
+            allocationSize = 1)
+    @Column(nullable = false, updatable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -46,12 +47,11 @@ public class Student {
                     name = "fk_student_groups"))
     private Group group;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Grade> grades;
 
     @ManyToMany
-    @JoinTable(
-            name = "student_discipline",
+    @JoinTable(name = "student_discipline",
             joinColumns = @JoinColumn(name = "student_id", foreignKey = @ForeignKey(
                     name = "fk_student_discipline_student_id")),
             inverseJoinColumns = @JoinColumn(name = "discipline_id", foreignKey = @ForeignKey(

@@ -35,4 +35,14 @@ public class DisciplineController {
     public List<DisciplineResponseDTO> getAllDisciplines() {
         return disciplineMapper.entityToDTOList(disciplineService.findAllDisciplines());
     }
+
+    @DeleteMapping("{id}")
+    public void deleteDiscipline(@PathVariable("id")Long id) {
+        disciplineService.deleteDisciplineById(id);
+    }
+
+    @PutMapping("{disciplineId}/student/{studentId}")
+    public void updateDisciplineStudent(@PathVariable Long disciplineId, @PathVariable Long studentId) {
+        disciplineService.addStudentToDiscipline(disciplineId, studentId);
+    }
 }

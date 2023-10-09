@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -89,25 +90,32 @@ public class StudentService {
     }
 
     @Transactional
-    public Student updateStudent(Long id, String firstName, String lastName) {
+    public Student updateStudent(Long id, String firstName, String lastName, LocalDate dob) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new StudentNotFoundException(String.format(
                         "Student with id %d does not exist", id)));
 
         if (firstName != null &&
-                firstName.length() > 0 &&
+                firstName.trim().length() > 1 &&
                 !Objects.equals(student.getFirstName(), firstName)) {
             student.setFirstName(firstName);
         }
 
         if (lastName != null &&
-                lastName.length() > 0 &&
+                lastName.trim().length() > 1 &&
                 !Objects.equals(student.getLastName(), lastName)) {
             student.setLastName(lastName);
+        }
+
+        if (dob != null &&
+                dob.isBefore(LocalDate.now()) &&
+                        !Objects.equals(student.getDob(), dob)) {
+            student.setDob(dob);
         }
         return student;
     }
 
+    @Transactional
     public void deleteStudentById(Long id) {
         if (!studentRepository.existsById(id)) {
             throw new StudentNotFoundException(String.format("Student with id %d does not exist", id));

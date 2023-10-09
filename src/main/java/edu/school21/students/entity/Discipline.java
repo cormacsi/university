@@ -1,6 +1,5 @@
 package edu.school21.students.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,33 +13,35 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(uniqueConstraints = {
-                @UniqueConstraint(name = "discipline_name_unique", columnNames = "name")
-        }
-)
+@Table
 public class Discipline {
 
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "discipline_seq")
+            generator = "discipline_gen")
     @SequenceGenerator(
-            name = "discipline_seq",
-            allocationSize = 20)
+            name = "discipline_gen",
+            sequenceName = "discipline_id_seq",
+            allocationSize = 1)
     @Column(nullable = false, updatable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "disciplines")
     private List<Student> students;
 
-    @OneToMany(mappedBy = "discipline")
-    @JsonBackReference
+    @OneToMany(mappedBy = "discipline", cascade = CascadeType.ALL)
     private List<Grade> grades;
 
     public Discipline(String name) {
         this.name = name;
+    }
+
+    public void addStudentToDiscipline(Student newStudent) {
+        this.students.add(newStudent);
+        newStudent.getDisciplines().add(this);
     }
 }

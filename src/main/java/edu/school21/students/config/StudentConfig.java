@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -39,7 +38,7 @@ public class StudentConfig {
             Date from = new GregorianCalendar(1994, Calendar.JANUARY, 1).getTime();
             Date to = new GregorianCalendar(2005, Calendar.JANUARY, 1).getTime();
 
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 4; i++) {
                 LocalDate localDate = faker.date().between(from, to).toInstant()
                         .atZone(ZoneId.systemDefault()).toLocalDate();
                 students.add(new Student(faker.name().firstName(),
@@ -61,9 +60,6 @@ public class StudentConfig {
             for (Student st: students) {
                 grades.add(new Grade(Mark.ACCEPTABLE,
                         "good",
-                        faker.date().past(365, TimeUnit.DAYS)
-                                .toInstant()
-                                .atZone(ZoneId.systemDefault()).toLocalDateTime(),
                         st, disciplines.get(i % disciplines.size())));
                 i++;
             }

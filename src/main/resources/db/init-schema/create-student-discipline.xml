@@ -10,13 +10,25 @@
             </not>
         </preConditions>
         <createTable tableName="student_discipline">
-            <column name="student_id" type="BIGINT">
-                <constraints foreignKeyName="fk_student_discipline_student_id" references="student(id)" nullable="false"/>
-            </column>
-            <column name="discipline_id" type="BIGINT">
-                <constraints foreignKeyName="fk_student_discipline_discipline_id" references="discipline(id)" nullable="false"/>
-            </column>
+            <column name="student_id" type="BIGINT"/>
+            <column name="discipline_id" type="BIGINT"/>
         </createTable>
+    </changeSet>
+    
+    <changeSet id="CREATE_FK_STUDENT_DISCIPLINE" author="cormacsi">
+        <addForeignKeyConstraint baseTableName="student_discipline"
+                                 baseColumnNames="student_id"
+                                 constraintName="fk_student_discipline_student_id"
+                                 referencedTableName="student"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="student_discipline"
+                                 baseColumnNames="discipline_id"
+                                 constraintName="fk_student_discipline_discipline_id"
+                                 referencedTableName="discipline"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
     </changeSet>
 
 </databaseChangeLog>
