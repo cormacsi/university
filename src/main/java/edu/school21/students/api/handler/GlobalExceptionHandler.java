@@ -19,7 +19,7 @@ class GlobalExceptionHandler {
     @ExceptionHandler(DateTimeParseException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public final ErrorResponse handleDateTimeParseException() {
-        String errorMessage = "Date of birth should have format: yyyy-MM-dd";
+        String errorMessage = "Date should have format: yyyy-MM-dd";
         return new ErrorResponse(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
@@ -77,5 +77,12 @@ class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public final ErrorResponse handleGroupAlreadyExistsException(GroupAlreadyExistsException e) {
         return new ErrorResponse(e.getMessage(), HttpStatus.CONFLICT);
+    }
+
+
+    @ExceptionHandler(DateInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public final ErrorResponse handleDateInvalidException(DateInvalidException e) {
+        return new ErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

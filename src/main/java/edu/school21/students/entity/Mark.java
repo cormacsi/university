@@ -14,4 +14,12 @@ public enum Mark {
 
     private final int value;
 
+    public static Mark getNameByValue(int value) {
+        for (Mark mark : values()) {
+            if (mark.value == value) {
+                return mark;
+            }
+        }
+        return null;
+    }
 }
